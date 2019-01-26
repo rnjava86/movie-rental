@@ -58,7 +58,7 @@ public class Rental {
 double amount() {
 	double thisAmount = 0;
       //determine amounts for each line
-      switch (getMovie().getPriceCode()) {
+      switch (movie.getPriceCode()) {
         case Movie.REGULAR:
           thisAmount += 2;
           if (getDaysRented() > 2)
@@ -69,7 +69,7 @@ double amount() {
           break;
         case Movie.CHILDRENS:
           thisAmount += 1.5;
-          if (getDaysRented() > 3)
+          if (daysRented > 3)
             thisAmount += (getDaysRented() - 3) * 1.5;
           break;
       }

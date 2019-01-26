@@ -17,7 +17,7 @@ public class Customer {
 	private String email;
 
 	@OneToMany(targetEntity = Rental.class, mappedBy = "customer")
-	private List<Rental> rentals = new ArrayList<>();
+	private Rentals rentals = new Rentals();
 
 	protected Customer() {
 	}
@@ -37,50 +37,20 @@ public class Customer {
 	}
 
 	public String statement() {
-		String result = "Rental Record for " + getName() + "\n";
-		for (Rental rental : rentals) {
-			// show figures for this rental
-			result += "\t" + rental.getMovie().getTitle() + "\t" + String.valueOf(rental.amount()) + "\n";
-		}
-
-		// add footer lines result
-		result += "Amount owed is " + String.valueOf(totalAmount()) + "\n";
-		result += "You earned " + String.valueOf(totalFrequentRenterPoints()) + " frequent renter points";
-		return result;
+		
+		return new TextStatement().display(name, rentals);
 	}
+
 
 	public String htmlStatement() {
-		String result = "<h1>Rental Statement for <b>" + getName() + "</b></h1><br/>";
-		int totalFrequentRenterPoints = totalFrequentRenterPoints();
-		for (Rental rental : rentals) {
-			// show figures for this rental
-			result += rental.getMovie().getTitle() + " " + String.valueOf(rental.amount()) + "<br/>";
-		}
-
-		// add footer lines result
-		result += "Amount owed is <b>" + String.valueOf(totalAmount()) + "</b><br/>";
-		result += "You earned <b>" + String.valueOf(totalFrequentRenterPoints) + "</b> frequent renter points";
-		return result;
+		return new HtmlStatement().display(name, rentals);
 
 	}
 
-	private double totalAmount() {
-		double totalAmount = 0;
-		for (Rental rental : rentals) {
-			totalAmount += rental.amount();
-		}
-		return totalAmount;
-	}
-
-	private int totalFrequentRenterPoints() {
-		int totalFrequentRenterPoints = 0;
-		for (Rental rental : rentals) {
-			totalFrequentRenterPoints += rental.frequentRenterPoints();
-		}
-		return totalFrequentRenterPoints;
-	}
 
 	public String getEmail() {
 		return email;
 	}
+	
+	
 }
